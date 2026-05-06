@@ -1,0 +1,46 @@
+{
+  "id": "e86f32b3-46c8-423c-ab43-cd4c0d80cc7f",
+  "name": "Mosquitto",
+  "connectionType": "mqtt",
+  "connectionStatus": "open",
+  "uri": "tcp://IP:1883",
+  "sources": [
+    {
+      "addresses": [
+        "sensores/+/telemetry"
+      ],
+      "consumerCount": 1,
+      "qos": 0,
+      "authorizationContext": [
+        "nginx:ditto"
+      ],
+      "headerMapping": {},
+      "payloadMapping": [
+        "incoming"
+      ],
+      "replyTarget": {
+        "address": "{{header:reply-to}}",
+        "headerMapping": {},
+        "expectedResponseTypes": [
+          "response",
+          "error"
+        ],
+        "enabled": true
+      }
+    }
+  ],
+  "targets": [],
+  "clientCount": 1,
+  "failoverEnabled": true,
+  "validateCertificates": true,
+  "processorPoolSize": 1,
+  "mappingDefinitions": {
+    "incoming": {
+      "mappingEngine": "JavaScript",
+      "options": {
+        "incomingScript": "function mapToDittoProtocolMsg(headers, textPayload, bytePayload, contentType) { var data = JSON.parse(textPayload); var topic = headers['mqtt.topic']; var parts = topic.split('/'); var deviceId = parts[1]; return Ditto.buildDittoProtocolMsg('sensores', deviceId, 'things', 'twin', 'commands', 'modify', '/features/environment/properties', headers, data); }"
+      }
+    }
+  },
+  "tags": []
+}
