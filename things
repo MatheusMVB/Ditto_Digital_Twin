@@ -1,0 +1,15 @@
+{
+  "thingId": "sensores:room1",
+  "policyId": "sensores:policy",
+  "attributes": {},
+  "features": {
+    "environment": {
+      "properties": {
+        "temperatura_c": 24,
+        "distancia_cm": 32,
+        "luminosidade": 0.234,
+        "timestamp": 1
+      }
+    }
+  }
+}
